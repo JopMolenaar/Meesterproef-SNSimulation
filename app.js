@@ -539,3 +539,46 @@ function calculateAdjustedClosenessCentrality() {
     console.log(centralities);
 }
 
+function findAllConnectedComponents() {
+    let visited = new Set();
+    let components = [];
+    // Filter to include only 'Person' nodes that have at least one friend
+    let graph = new Map([...nodes].filter(([id, node]) => node.label === 'Person' && node.friends && node.friends.length > 0));
+
+    // Helper function to perform BFS and find all nodes connected to 'startNode'
+    function bfs(startNode) {
+        let queue = [startNode];
+        let component = [];
+        visited.add(startNode);
+        component.push(startNode);
+
+        while (queue.length > 0) {
+            let currentNode = queue.shift();
+            let neighbors = graph.get(currentNode).friends || [];
+
+            neighbors.forEach(neighbor => {
+                if (!visited.has(neighbor) && graph.has(neighbor)) { // Ensure neighbor is also a 'Person' with friends
+                    visited.add(neighbor);
+                    queue.push(neighbor);
+                    component.push(neighbor);
+                }
+            });
+        }
+        return component;
+    }
+
+    // Main loop to initiate BFS from each unvisited node that has friends
+    graph.forEach((_, node) => {
+        if (!visited.has(node)) {
+            let component = bfs(node);
+            if (component.length > 1) { // Only consider components with more than one node
+                components.push(component);
+            }
+        }
+    });
+
+    console.log('Total number of connected components:', components.length);
+    console.log('Connected components:', components);
+}
+
+
