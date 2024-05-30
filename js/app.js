@@ -87,6 +87,8 @@ canvas.addEventListener("click", (event) => {
     spawnNode(event);
 });
 
+// hoi
+
 calcClosenessCentrality.addEventListener("click", () => {
     calculateAdjustedClosenessCentrality();
 });
