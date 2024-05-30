@@ -23,13 +23,11 @@ export default class Edge {
     }
 
     calcAngle() {
-        console.log(this.to.x);
         let Ydifference = this.from.y - this.to.y;
         let Xdifference = this.from.x - this.to.x;
 
         let linkLength = Math.sqrt(Math.pow(Ydifference, 2) + Math.pow(Xdifference, 2));
         let linkAngle = Math.atan2(Ydifference, Xdifference) + Math.PI;
-        console.log(linkLength, linkAngle);
         this.element.style.width = linkLength + "px";
         this.element.style.transform = "translateY(-50%) rotate(" + linkAngle + "rad)";
         this.element.style.left = this.from.x + "px";
